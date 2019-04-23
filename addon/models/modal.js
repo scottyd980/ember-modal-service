@@ -48,13 +48,18 @@ export default EmberObject.extend({
 	 * @property fullname
 	 * @type String
 	 */
-	fullname: computed('name', function() {
+	fullname: computed('name', 'options.prefix', function() {
 		const name = this.get('name');
+		const prefix = this.get('options.prefix');
 
 		if (isBlank(name)) {
 			throw new Error('Modal must have a name.');
 		}
 
+		if(prefix) {
+			return `${prefix}${dasherize(name)}`
+		}
+		
 		return `modal-${dasherize(name)}`;
 	}),
 
